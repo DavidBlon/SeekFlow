@@ -26,7 +26,9 @@
 
 ## 截图
 
-> TODO: 添加应用截图
+<p align="center">
+  <img src="docs/screenshot.jpg" width="320" alt="SeekFlow Screenshot"/>
+</p>
 
 ## 功能
 
