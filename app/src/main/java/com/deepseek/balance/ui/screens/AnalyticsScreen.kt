@@ -1,5 +1,7 @@
 package com.deepseek.balance.ui.screens
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -27,13 +29,18 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +56,21 @@ fun AnalyticsScreen(
     viewModel: AnalyticsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+
+    // 响应式监听主题切换（鲸鱼颜色）的偏好变化
+    val context = LocalContext.current
+    var isWhaleBlue by remember { mutableStateOf(false) }
+    DisposableEffect(context) {
+        val prefs = context.getSharedPreferences("whale_prefs", Context.MODE_PRIVATE)
+        isWhaleBlue = prefs.getBoolean("is_whale_blue", false)
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == "is_whale_blue") {
+                isWhaleBlue = prefs.getBoolean("is_whale_blue", false)
+            }
+        }
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+        onDispose { prefs.unregisterOnSharedPreferenceChangeListener(listener) }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.refresh()
@@ -95,12 +117,20 @@ fun AnalyticsScreen(
                         label = "loading_rotation"
                     )
                     Image(
-                        painter = painterResource(R.drawable.ic_deepseek_logo_blue),
+                        painter = painterResource(
+                            if (isWhaleBlue) R.drawable.ic_deepseek_logo_blue
+                            else R.drawable.ic_deepseek_logo
+                        ),
                         contentDescription = stringResource(R.string.loading_analytics_data),
-                        modifier = Modifier.size(42.dp).rotate(rotation)
+                        modifier = Modifier.size(52.dp).rotate(rotation)
                     )
-                    Spacer(Modifier.height(10.dp))
-                    Text(stringResource(R.string.loading_analytics_data), color = Color(0xFF666666), style = MaterialTheme.typography.bodyMedium)
+                    Spacer(Modifier.height(14.dp))
+                    Text(
+                        stringResource(R.string.loading_analytics_data),
+                        color = Color(0xFF666666),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
             }
         } else {
