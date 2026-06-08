@@ -140,7 +140,7 @@ class DashboardViewModel @Inject constructor(
                         }
                     }
                     .onFailure { e ->
-                        _state.update { it.copy(errorMessage = e.message ?: "\u7f51\u7edc\u9519\u8bef") }
+                        _state.update { it.copy(errorMessage = e.message ?: application.getString(R.string.network_error)) }
                     }
 
                 val today = dateFormat.format(System.currentTimeMillis())
@@ -192,7 +192,7 @@ class DashboardViewModel @Inject constructor(
                     it.copy(
                         isLoading = false,
                         isRefreshing = false,
-                        errorMessage = e.message ?: "\u5237\u65b0\u5931\u8d25"
+                        errorMessage = e.message ?: application.getString(R.string.refresh_failed)
                     )
                 }
             }

@@ -26,7 +26,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import com.deepseek.balance.R
 import com.deepseek.balance.data.db.ModelCostSummary
 
 private val MODEL_COLORS = listOf(
@@ -50,7 +52,7 @@ fun ModelPieChart(
     GlassPanel(modifier = modifier.fillMaxWidth(), radius = 22) {
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Text(
-                "模型占比",
+                stringResource(R.string.pie_title),
                 color = Color(0xFF1A1A1A),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
@@ -59,7 +61,7 @@ fun ModelPieChart(
 
             if (modelCosts.isEmpty() || total <= 0.0) {
                 Text(
-                    "暂无消费数据",
+                    stringResource(R.string.pie_no_data),
                     color = Color(0xFF999999),
                     style = MaterialTheme.typography.bodyMedium
                 )

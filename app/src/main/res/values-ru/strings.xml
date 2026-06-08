@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SeekFlow</string>
+
+    <!-- Tab bar -->
+    <string name="tab_overview">Обзор</string>
+    <string name="tab_analytics">Аналитика</string>
+    <string name="tab_settings">Настройки</string>
+
+    <!-- Dashboard -->
+    <string name="loading_refreshing">Обновление…</string>
+    <string name="empty_dashboard_desc">Пожалуйста, сначала введите ваш DeepSeek API Key в Настройках, чтобы увидеть баланс и тенденции использования.</string>
+    <string name="go_to_settings">Перейти в Настройки</string>
+
+    <!-- Analytics -->
+    <string name="title_analytics">Аналитика</string>
+    <string name="loading_analytics_data">Загрузка данных…</string>
+
+    <!-- Settings -->
+    <string name="title_settings">Настройки</string>
+    <string name="api_settings">Настройки DeepSeek API</string>
+    <string name="label_api_key">API Key (проверка баланса)</string>
+    <string name="label_user_token">User Token (проверка использования)</string>
+    <string name="label_threshold">Порог (¥)</string>
+    <string name="threshold_hint">например 10</string>
+    <string name="threshold_desc">Получать уведомление, когда баланс ниже порога. Оставьте пустым, чтобы отключить.</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="title_usage">Инструкция</string>
+    <string name="usage_text">API Key используется для проверки баланса аккаунта. Создайте или скопируйте его на platform.deepseek.com/api_keys.\n\nUser Token используется для просмотра ежедневной статистики использования. Войдите в platform.deepseek.com, откройте инструменты разработчика браузера и выполните в консоли:\n\nlocalStorage.getItem(\'userToken\')\n\nСкопируйте возвращённое значение и вставьте его в поле выше.</string>
+    <string name="title_language">Язык</string>
+    <string name="btn_show">Показать</string>
+    <string name="btn_hide">Скрыть</string>
+
+    <!-- Balance Card -->
+    <string name="balance_title">Баланс</string>
+    <string name="balance_available">Доступно</string>
+    <string name="balance_daily">Сегодня</string>
+    <string name="balance_monthly">В этом месяце</string>
+
+    <!-- Daily Bar Chart -->
+    <string name="chart_consumption_trend">Тренд потребления</string>
+    <string name="chart_total">Итого</string>
+
+    <!-- Balance Forecast -->
+    <string name="forecast_title">Прогноз</string>
+    <string name="forecast_no_data">Недостаточно данных для прогноза</string>
+    <string name="forecast_days_prefix">Около </string>
+    <string name="forecast_days_suffix"> дней</string>
+    <string name="forecast_estimated_date">При текущем потреблении баланса хватит до %s</string>
+    <string name="forecast_daily_avg">В среднем в день ¥%s</string>
+    <string name="forecast_date_format">d.M</string>
+
+    <!-- Trend Line Chart -->
+    <string name="trend_title">Тренд за 30 дней</string>
+    <string name="trend_total">Итого ¥%s</string>
+    <string name="trend_daily_avg">В среднем ¥%s</string>
+    <string name="trend_peak">Пик %s ¥%s</string>
+
+    <!-- Model Pie Chart -->
+    <string name="pie_title">Распределение по моделям</string>
+    <string name="pie_no_data">Нет данных о потреблении</string>
+
+    <!-- Widget -->
+    <string name="widget_day_prefix">Д </string>
+    <string name="widget_month_prefix">М </string>
+
+    <!-- Errors -->
+    <string name="network_error">Ошибка сети</string>
+    <string name="refresh_failed">Ошибка обновления</string>
+</resources>

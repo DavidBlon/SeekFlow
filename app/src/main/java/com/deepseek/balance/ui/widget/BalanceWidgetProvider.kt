@@ -86,9 +86,9 @@ open class BalanceWidgetProvider : AppWidgetProvider() {
 
             views.setTextViewText(R.id.widget_balance_amount, "¥${data.totalBalance}")
             views.setTextViewText(R.id.widget_daily_amount,
-                if (labels) "¥${data.dailyCost}" else "日 ¥${data.dailyCost}")
+                if (labels) "¥${data.dailyCost}" else "${context.getString(R.string.widget_day_prefix)}¥${data.dailyCost}")
             views.setTextViewText(R.id.widget_monthly_amount,
-                if (labels) "¥${data.monthlyCost}" else "月 ¥${data.monthlyCost}")
+                if (labels) "¥${data.monthlyCost}" else "${context.getString(R.string.widget_month_prefix)}¥${data.monthlyCost}")
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }

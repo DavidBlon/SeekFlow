@@ -19,7 +19,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.deepseek.balance.R
 import com.deepseek.balance.data.db.DailyUsageSummary
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -35,9 +37,9 @@ fun DailyBarChart(
     GlassPanel(modifier = modifier.fillMaxWidth(), radius = 24) {
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("\u6d88\u8017\u8d8b\u52bf", color = Color(0xFF1A1A1A), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.chart_consumption_trend), color = Color(0xFF1A1A1A), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.weight(1f))
-                Text("\u5408\u8ba1 ${formatChartTokens(total)}", color = Color(0xFF333333), fontWeight = FontWeight.SemiBold)
+                Text("${stringResource(R.string.chart_total)} ${formatChartTokens(total)}", color = Color(0xFF333333), fontWeight = FontWeight.SemiBold)
             }
             Spacer(Modifier.height(10.dp))
 

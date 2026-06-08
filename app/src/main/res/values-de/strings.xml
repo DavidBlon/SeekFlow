@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SeekFlow</string>
+
+    <!-- Tab bar -->
+    <string name="tab_overview">Übersicht</string>
+    <string name="tab_analytics">Analyse</string>
+    <string name="tab_settings">Einstellungen</string>
+
+    <!-- Dashboard -->
+    <string name="loading_refreshing">Aktualisiere…</string>
+    <string name="empty_dashboard_desc">Bitte geben Sie zuerst Ihren DeepSeek API Key in den Einstellungen ein, um Ihr Guthaben und Nutzungstrends zu sehen.</string>
+    <string name="go_to_settings">Zu den Einstellungen</string>
+
+    <!-- Analytics -->
+    <string name="title_analytics">Analyse</string>
+    <string name="loading_analytics_data">Lade Analysedaten…</string>
+
+    <!-- Settings -->
+    <string name="title_settings">Einstellungen</string>
+    <string name="api_settings">DeepSeek API Einstellungen</string>
+    <string name="label_api_key">API Key (Guthaben abfragen)</string>
+    <string name="label_user_token">User Token (Nutzung abfragen)</string>
+    <string name="label_threshold">Schwellwert (¥)</string>
+    <string name="threshold_hint">z.B. 10</string>
+    <string name="threshold_desc">Benachrichtigung, wenn das Guthaben unter den Schwellwert fällt. Leer lassen zum Deaktivieren.</string>
+    <string name="btn_save">Speichern</string>
+    <string name="title_usage">Anleitung</string>
+    <string name="usage_text">Der API Key wird zur Abfrage des Kontoguthabens verwendet. Erstellen oder kopieren Sie einen unter platform.deepseek.com/api_keys.\n\nDer User Token wird zur Abfrage der täglichen Nutzungsdetails verwendet. Melden Sie sich bei platform.deepseek.com an, öffnen Sie die Entwicklertools des Browsers und führen Sie in der Konsole aus:\n\nlocalStorage.getItem(\'userToken\')\n\nKopieren Sie den Rückgabewert und fügen Sie ihn in das obige Eingabefeld ein.</string>
+    <string name="title_language">Sprache</string>
+    <string name="btn_show">Anzeigen</string>
+    <string name="btn_hide">Ausblenden</string>
+
+    <!-- Balance Card -->
+    <string name="balance_title">Guthaben</string>
+    <string name="balance_available">Verfügbar</string>
+    <string name="balance_daily">Heute</string>
+    <string name="balance_monthly">Dieser Monat</string>
+
+    <!-- Daily Bar Chart -->
+    <string name="chart_consumption_trend">Verbrauchstrend</string>
+    <string name="chart_total">Gesamt</string>
+
+    <!-- Balance Forecast -->
+    <string name="forecast_title">Prognose</string>
+    <string name="forecast_no_data">Nicht genug Daten für eine Prognose</string>
+    <string name="forecast_days_prefix">Noch </string>
+    <string name="forecast_days_suffix"> Tage</string>
+    <string name="forecast_estimated_date">Bei aktueller Nutzung reicht das Guthaben bis %s</string>
+    <string name="forecast_daily_avg">Täglicher Ø ¥%s</string>
+    <string name="forecast_date_format">d.M.</string>
+
+    <!-- Trend Line Chart -->
+    <string name="trend_title">30-Tage-Trend</string>
+    <string name="trend_total">Gesamt ¥%s</string>
+    <string name="trend_daily_avg">Ø ¥%s</string>
+    <string name="trend_peak">Spitze %s ¥%s</string>
+
+    <!-- Model Pie Chart -->
+    <string name="pie_title">Modellverteilung</string>
+    <string name="pie_no_data">Keine Verbrauchsdaten</string>
+
+    <!-- Widget -->
+    <string name="widget_day_prefix">T </string>
+    <string name="widget_month_prefix">M </string>
+
+    <!-- Errors -->
+    <string name="network_error">Netzwerkfehler</string>
+    <string name="refresh_failed">Aktualisierung fehlgeschlagen</string>
+</resources>

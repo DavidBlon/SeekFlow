@@ -19,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.deepseek.balance.R
 import kotlinx.coroutines.launch
 
 data class TabItem(
@@ -34,9 +36,9 @@ data class TabItem(
 @Composable
 fun MainTabScreen() {
     val tabs = listOf(
-        TabItem("概览", Icons.Default.Dashboard),
-        TabItem("分析", Icons.Default.BarChart),
-        TabItem("设置", Icons.Default.Settings)
+        TabItem(stringResource(R.string.tab_overview), Icons.Default.Dashboard),
+        TabItem(stringResource(R.string.tab_analytics), Icons.Default.BarChart),
+        TabItem(stringResource(R.string.tab_settings), Icons.Default.Settings)
     )
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()

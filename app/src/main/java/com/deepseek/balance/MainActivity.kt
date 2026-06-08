@@ -1,9 +1,11 @@
 package com.deepseek.balance
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.deepseek.balance.util.applyLocale
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -21,6 +23,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    override fun attachBaseContext(newBase: Context?) {
+        val code = newBase?.getSharedPreferences("whale_prefs", Context.MODE_PRIVATE)
+            ?.getString("app_language", "zh") ?: "zh"
+        super.attachBaseContext(applyLocale(newBase ?: return, code))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

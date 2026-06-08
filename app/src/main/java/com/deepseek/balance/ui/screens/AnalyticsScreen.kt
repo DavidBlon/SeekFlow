@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -66,14 +67,14 @@ fun AnalyticsScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "分析",
+                stringResource(R.string.title_analytics),
                 color = Color(0xFF1A1A1A),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
             )
             IconButton(onClick = { viewModel.refresh() }) {
-                Icon(Icons.Default.Refresh, contentDescription = "刷新", tint = Color(0xFF333333))
+                Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.loading_refreshing), tint = Color(0xFF333333))
             }
         }
 
@@ -95,11 +96,11 @@ fun AnalyticsScreen(
                     )
                     Image(
                         painter = painterResource(R.drawable.ic_deepseek_logo_blue),
-                        contentDescription = "加载中",
+                        contentDescription = stringResource(R.string.loading_analytics_data),
                         modifier = Modifier.size(42.dp).rotate(rotation)
                     )
                     Spacer(Modifier.height(10.dp))
-                    Text("正在加载分析数据", color = Color(0xFF666666), style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.loading_analytics_data), color = Color(0xFF666666), style = MaterialTheme.typography.bodyMedium)
                 }
             }
         } else {

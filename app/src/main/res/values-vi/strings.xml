@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SeekFlow</string>
+
+    <!-- Tab bar -->
+    <string name="tab_overview">Tổng Quan</string>
+    <string name="tab_analytics">Phân Tích</string>
+    <string name="tab_settings">Cài Đặt</string>
+
+    <!-- Dashboard -->
+    <string name="loading_refreshing">Đang làm mới…</string>
+    <string name="empty_dashboard_desc">Vui lòng nhập DeepSeek API Key trong Cài Đặt để xem số dư và xu hướng sử dụng.</string>
+    <string name="go_to_settings">Đi tới Cài Đặt</string>
+
+    <!-- Analytics -->
+    <string name="title_analytics">Phân Tích</string>
+    <string name="loading_analytics_data">Đang tải dữ liệu…</string>
+
+    <!-- Settings -->
+    <string name="title_settings">Cài Đặt</string>
+    <string name="api_settings">Cài Đặt DeepSeek API</string>
+    <string name="label_api_key">API Key (xem số dư)</string>
+    <string name="label_user_token">User Token (xem lượng dùng)</string>
+    <string name="label_threshold">Ngưỡng (¥)</string>
+    <string name="threshold_hint">vd. 10</string>
+    <string name="threshold_desc">Nhận thông báo khi số dư dưới ngưỡng. Để trống để tắt.</string>
+    <string name="btn_save">Lưu</string>
+    <string name="title_usage">Hướng Dẫn</string>
+    <string name="usage_text">API Key dùng để kiểm tra số dư tài khoản. Tạo hoặc sao chép tại platform.deepseek.com/api_keys.\n\nUser Token dùng để xem chi tiết sử dụng hàng ngày. Đăng nhập platform.deepseek.com, mở công cụ phát triển trình duyệt và chạy trong Console:\n\nlocalStorage.getItem(\'userToken\')\n\nSao chép giá trị trả về và dán vào ô nhập phía trên.</string>
+    <string name="title_language">Ngôn Ngữ</string>
+    <string name="btn_show">Hiện</string>
+    <string name="btn_hide">Ẩn</string>
+
+    <!-- Balance Card -->
+    <string name="balance_title">Số Dư</string>
+    <string name="balance_available">Khả dụng</string>
+    <string name="balance_daily">Hôm nay</string>
+    <string name="balance_monthly">Tháng này</string>
+
+    <!-- Daily Bar Chart -->
+    <string name="chart_consumption_trend">Xu Hướng</string>
+    <string name="chart_total">Tổng</string>
+
+    <!-- Balance Forecast -->
+    <string name="forecast_title">Dự Báo</string>
+    <string name="forecast_no_data">Không đủ dữ liệu để dự báo</string>
+    <string name="forecast_days_prefix">Còn </string>
+    <string name="forecast_days_suffix"> ngày</string>
+    <string name="forecast_estimated_date">Với tốc độ hiện tại, số dư sẽ dùng đến %s</string>
+    <string name="forecast_daily_avg">Trung bình ngày ¥%s</string>
+    <string name="forecast_date_format">d/M</string>
+
+    <!-- Trend Line Chart -->
+    <string name="trend_title">Xu Hướng 30 Ngày</string>
+    <string name="trend_total">Tổng ¥%s</string>
+    <string name="trend_daily_avg">TB ¥%s</string>
+    <string name="trend_peak">Đỉnh %s ¥%s</string>
+
+    <!-- Model Pie Chart -->
+    <string name="pie_title">Phân Bổ Mô Hình</string>
+    <string name="pie_no_data">Không có dữ liệu tiêu dùng</string>
+
+    <!-- Widget -->
+    <string name="widget_day_prefix">N </string>
+    <string name="widget_month_prefix">T </string>
+
+    <!-- Errors -->
+    <string name="network_error">Lỗi mạng</string>
+    <string name="refresh_failed">Làm mới thất bại</string>
+</resources>

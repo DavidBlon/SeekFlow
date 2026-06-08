@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SeekFlow</string>
+
+    <!-- Tab bar -->
+    <string name="tab_overview">Riepilogo</string>
+    <string name="tab_analytics">Analisi</string>
+    <string name="tab_settings">Impostazioni</string>
+
+    <!-- Dashboard -->
+    <string name="loading_refreshing">Aggiornamento…</string>
+    <string name="empty_dashboard_desc">Inserisci la tua DeepSeek API Key nelle Impostazioni per visualizzare il saldo e le tendenze di utilizzo.</string>
+    <string name="go_to_settings">Vai alle Impostazioni</string>
+
+    <!-- Analytics -->
+    <string name="title_analytics">Analisi</string>
+    <string name="loading_analytics_data">Caricamento dati…</string>
+
+    <!-- Settings -->
+    <string name="title_settings">Impostazioni</string>
+    <string name="api_settings">Impostazioni DeepSeek API</string>
+    <string name="label_api_key">API Key (controlla saldo)</string>
+    <string name="label_user_token">User Token (controlla utilizzo)</string>
+    <string name="label_threshold">Soglia (¥)</string>
+    <string name="threshold_hint">es. 10</string>
+    <string name="threshold_desc">Ricevi una notifica quando il saldo scende sotto la soglia. Lascia vuoto per disabilitare.</string>
+    <string name="btn_save">Salva</string>
+    <string name="title_usage">Istruzioni</string>
+    <string name="usage_text">L\'API Key serve per controllare il saldo del conto. Creane o copiane una su platform.deepseek.com/api_keys.\n\nIl User Token serve per consultare i dettagli di utilizzo giornalieri. Accedi a platform.deepseek.com, apri gli strumenti di sviluppo del browser ed esegui nella Console:\n\nlocalStorage.getItem(\'userToken\')\n\nCopia il valore restituito e incollalo nel campo sopra.</string>
+    <string name="title_language">Lingua</string>
+    <string name="btn_show">Mostra</string>
+    <string name="btn_hide">Nascondi</string>
+
+    <!-- Balance Card -->
+    <string name="balance_title">Saldo</string>
+    <string name="balance_available">Disponibile</string>
+    <string name="balance_daily">Oggi</string>
+    <string name="balance_monthly">Questo mese</string>
+
+    <!-- Daily Bar Chart -->
+    <string name="chart_consumption_trend">Andamento</string>
+    <string name="chart_total">Totale</string>
+
+    <!-- Balance Forecast -->
+    <string name="forecast_title">Previsione</string>
+    <string name="forecast_no_data">Dati insufficienti per una previsione</string>
+    <string name="forecast_days_prefix">Ancora </string>
+    <string name="forecast_days_suffix"> giorni</string>
+    <string name="forecast_estimated_date">Al ritmo attuale, il saldo durerà fino al %s</string>
+    <string name="forecast_daily_avg">Media giornaliera ¥%s</string>
+    <string name="forecast_date_format">d/M</string>
+
+    <!-- Trend Line Chart -->
+    <string name="trend_title">Andamento 30 giorni</string>
+    <string name="trend_total">Totale ¥%s</string>
+    <string name="trend_daily_avg">Media ¥%s</string>
+    <string name="trend_peak">Picco %s ¥%s</string>
+
+    <!-- Model Pie Chart -->
+    <string name="pie_title">Distribuzione modelli</string>
+    <string name="pie_no_data">Nessun dato di consumo</string>
+
+    <!-- Widget -->
+    <string name="widget_day_prefix">G </string>
+    <string name="widget_month_prefix">M </string>
+
+    <!-- Errors -->
+    <string name="network_error">Errore di rete</string>
+    <string name="refresh_failed">Aggiornamento fallito</string>
+</resources>

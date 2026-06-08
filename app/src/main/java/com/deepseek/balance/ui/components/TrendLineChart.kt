@@ -21,8 +21,10 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.deepseek.balance.R
 import com.deepseek.balance.data.db.DailyUsageSummary
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -42,14 +44,14 @@ fun TrendLineChart(
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    "30天趋势",
+                    stringResource(R.string.trend_title),
                     color = Color(0xFF1A1A1A),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(Modifier.weight(1f))
                 Text(
-                    "合计 ¥${String.format("%.2f", total)}",
+                    stringResource(R.string.trend_total, String.format("%.2f", total)),
                     color = Color(0xFF333333),
                     fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.bodySmall
@@ -150,7 +152,7 @@ fun TrendLineChart(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "日均 ¥${String.format("%.2f", avg)}",
+                    stringResource(R.string.trend_daily_avg, String.format("%.2f", avg)),
                     color = Color(0xFF666666),
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.SemiBold,
@@ -158,7 +160,7 @@ fun TrendLineChart(
                 )
                 if (peak != null) {
                     Text(
-                        "峰值 ${peak.date.takeLast(5)} ¥${String.format("%.2f", peakCost)}",
+                        stringResource(R.string.trend_peak, peak.date.takeLast(5), String.format("%.2f", peakCost)),
                         color = Color(0xFFFF6B6B),
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.SemiBold

@@ -41,6 +41,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -124,14 +125,14 @@ private fun DashboardContent(
                             if (state.isWhaleBlue) R.drawable.ic_deepseek_logo_blue
                             else R.drawable.ic_deepseek_logo
                         ),
-                        contentDescription = "刷新中",
+                        contentDescription = stringResource(R.string.loading_refreshing),
                         modifier = Modifier
                             .size(52.dp)
                             .rotate(rotation)
                     )
                     Spacer(Modifier.height(14.dp))
                     Text(
-                        "正在刷新数据",
+                        stringResource(R.string.loading_refreshing),
                         color = Color(0xFF666666),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
@@ -200,7 +201,7 @@ private fun HeaderBar(
         // 鲸鱼变色滑块
         WhaleColorToggle(isWhaleBlue = isWhaleBlue, onToggle = onToggleWhaleColor)
         IconButton(onClick = onRefresh) {
-            Icon(Icons.Default.Refresh, contentDescription = "刷新", tint = Color(0xFF333333))
+            Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.loading_refreshing), tint = Color(0xFF333333))
         }
     }
 }
@@ -253,7 +254,7 @@ private fun EmptyDashboard(
         )
         Spacer(Modifier.height(10.dp))
         Text(
-            "请先在设置中填写 DeepSeek API Key，之后即可查看余额与消耗趋势。",
+            stringResource(R.string.empty_dashboard_desc),
             color = Color(0xFF888888),
             style = MaterialTheme.typography.bodyLarge
         )
@@ -265,7 +266,7 @@ private fun EmptyDashboard(
                 contentColor = Color(0xFF06222C)
             )
         ) {
-            Text("前往设置", fontWeight = FontWeight.SemiBold)
+            Text(stringResource(R.string.go_to_settings), fontWeight = FontWeight.SemiBold)
         }
     }
 }

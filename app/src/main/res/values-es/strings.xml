@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SeekFlow</string>
+
+    <!-- Tab bar -->
+    <string name="tab_overview">Resumen</string>
+    <string name="tab_analytics">Análisis</string>
+    <string name="tab_settings">Ajustes</string>
+
+    <!-- Dashboard -->
+    <string name="loading_refreshing">Actualizando datos…</string>
+    <string name="empty_dashboard_desc">Introduce tu DeepSeek API Key en Ajustes para ver tu saldo y tendencias de uso.</string>
+    <string name="go_to_settings">Ir a Ajustes</string>
+
+    <!-- Analytics -->
+    <string name="title_analytics">Análisis</string>
+    <string name="loading_analytics_data">Cargando datos de análisis…</string>
+
+    <!-- Settings -->
+    <string name="title_settings">Ajustes</string>
+    <string name="api_settings">Configuración de DeepSeek API</string>
+    <string name="label_api_key">API Key (consultar saldo)</string>
+    <string name="label_user_token">User Token (consultar uso)</string>
+    <string name="label_threshold">Umbral (¥)</string>
+    <string name="threshold_hint">ej. 10</string>
+    <string name="threshold_desc">Recibe una notificación cuando el saldo baje del umbral. Déjalo vacío para desactivar.</string>
+    <string name="btn_save">Guardar</string>
+    <string name="title_usage">Instrucciones</string>
+    <string name="usage_text">API Key se usa para consultar el saldo de la cuenta. Puedes crear o copiar una en platform.deepseek.com/api_keys.\n\nUser Token se usa para consultar el uso diario. Inicia sesión en platform.deepseek.com, abre las herramientas de desarrollo del navegador y ejecuta en la Consola:\n\nlocalStorage.getItem(\'userToken\')\n\nCopia el valor devuelto y pégalo en el campo de entrada superior.</string>
+    <string name="title_language">Idioma</string>
+    <string name="btn_show">Mostrar</string>
+    <string name="btn_hide">Ocultar</string>
+
+    <!-- Balance Card -->
+    <string name="balance_title">Saldo</string>
+    <string name="balance_available">Disponible</string>
+    <string name="balance_daily">Hoy</string>
+    <string name="balance_monthly">Este mes</string>
+
+    <!-- Daily Bar Chart -->
+    <string name="chart_consumption_trend">Tendencia de uso</string>
+    <string name="chart_total">Total</string>
+
+    <!-- Balance Forecast -->
+    <string name="forecast_title">Pronóstico</string>
+    <string name="forecast_no_data">Sin datos de uso, no se puede pronosticar</string>
+    <string name="forecast_days_prefix">Aprox. </string>
+    <string name="forecast_days_suffix"> días</string>
+    <string name="forecast_estimated_date">Según el uso actual, se estima que dure hasta el %s</string>
+    <string name="forecast_daily_avg">Promedio diario ¥%s</string>
+    <string name="forecast_date_format">d/M</string>
+
+    <!-- Trend Line Chart -->
+    <string name="trend_title">Tendencia 30 días</string>
+    <string name="trend_total">Total ¥%s</string>
+    <string name="trend_daily_avg">Promedio diario ¥%s</string>
+    <string name="trend_peak">Pico %s ¥%s</string>
+
+    <!-- Model Pie Chart -->
+    <string name="pie_title">Distribución por modelo</string>
+    <string name="pie_no_data">Sin datos de consumo</string>
+
+    <!-- Widget -->
+    <string name="widget_day_prefix">D </string>
+    <string name="widget_month_prefix">M </string>
+    <string name="network_error">Error de red</string>
+    <string name="refresh_failed">Error al actualizar</string>
+</resources>

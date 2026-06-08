@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SeekFlow</string>
+
+    <!-- Tab bar -->
+    <string name="tab_overview">概要</string>
+    <string name="tab_analytics">分析</string>
+    <string name="tab_settings">設定</string>
+
+    <!-- Dashboard -->
+    <string name="loading_refreshing">データを更新中…</string>
+    <string name="empty_dashboard_desc">設定で DeepSeek API Key を入力してください。残高と使用量の傾向を確認できるようになります。</string>
+    <string name="go_to_settings">設定へ</string>
+
+    <!-- Analytics -->
+    <string name="title_analytics">分析</string>
+    <string name="loading_analytics_data">分析データを読み込み中…</string>
+
+    <!-- Settings -->
+    <string name="title_settings">設定</string>
+    <string name="api_settings">DeepSeek API 設定</string>
+    <string name="label_api_key">API Key（残高照会）</string>
+    <string name="label_user_token">User Token（使用量照会）</string>
+    <string name="label_threshold">しきい値 (¥)</string>
+    <string name="threshold_hint">例：10</string>
+    <string name="threshold_desc">残高がしきい値を下回ったら通知します。空欄の場合は通知しません。</string>
+    <string name="btn_save">保存</string>
+    <string name="title_usage">使い方</string>
+    <string name="usage_text">API Key はアカウント残高の照会に使います。platform.deepseek.com/api_keys で作成またはコピーしてください。\n\nUser Token は日別使用量の照会に使います。platform.deepseek.com にログイン後、ブラウザの開発者ツールを開き、Console で以下を実行してください：\n\nlocalStorage.getItem(\'userToken\')\n\n返却値をコピーして上の入力欄に貼り付けてください。</string>
+    <string name="title_language">言語</string>
+    <string name="btn_show">表示</string>
+    <string name="btn_hide">非表示</string>
+
+    <!-- Balance Card -->
+    <string name="balance_title">アカウント残高</string>
+    <string name="balance_available">利用可能</string>
+    <string name="balance_daily">本日の消費</string>
+    <string name="balance_monthly">今月の消費</string>
+
+    <!-- Daily Bar Chart -->
+    <string name="chart_consumption_trend">消費トレンド</string>
+    <string name="chart_total">合計</string>
+
+    <!-- Balance Forecast -->
+    <string name="forecast_title">残高予測</string>
+    <string name="forecast_no_data">使用量データがないため予測できません</string>
+    <string name="forecast_days_prefix">約 </string>
+    <string name="forecast_days_suffix"> 日</string>
+    <string name="forecast_estimated_date">現在の消費ペースでは %s まで持つ見込みです</string>
+    <string name="forecast_daily_avg">1日平均 ¥%s</string>
+    <string name="forecast_date_format">M月d日</string>
+
+    <!-- Trend Line Chart -->
+    <string name="trend_title">30日トレンド</string>
+    <string name="trend_total">合計 ¥%s</string>
+    <string name="trend_daily_avg">1日平均 ¥%s</string>
+    <string name="trend_peak">最高 %s ¥%s</string>
+
+    <!-- Model Pie Chart -->
+    <string name="pie_title">モデル比率</string>
+    <string name="pie_no_data">消費データがありません</string>
+
+    <!-- Widget -->
+    <string name="widget_day_prefix">日 </string>
+    <string name="widget_month_prefix">月 </string>
+    <string name="network_error">ネットワークエラー</string>
+    <string name="refresh_failed">更新に失敗しました</string>
+</resources>

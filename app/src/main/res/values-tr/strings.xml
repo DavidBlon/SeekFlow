@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SeekFlow</string>
+
+    <!-- Tab bar -->
+    <string name="tab_overview">Genel Bakış</string>
+    <string name="tab_analytics">Analiz</string>
+    <string name="tab_settings">Ayarlar</string>
+
+    <!-- Dashboard -->
+    <string name="loading_refreshing">Yenileniyor…</string>
+    <string name="empty_dashboard_desc">Bakiyenizi ve kullanım trendlerinizi görmek için önce Ayarlar\'da DeepSeek API Key\'inizi girin.</string>
+    <string name="go_to_settings">Ayarlara Git</string>
+
+    <!-- Analytics -->
+    <string name="title_analytics">Analiz</string>
+    <string name="loading_analytics_data">Analiz verileri yükleniyor…</string>
+
+    <!-- Settings -->
+    <string name="title_settings">Ayarlar</string>
+    <string name="api_settings">DeepSeek API Ayarları</string>
+    <string name="label_api_key">API Key (bakiye sorgula)</string>
+    <string name="label_user_token">User Token (kullanım sorgula)</string>
+    <string name="label_threshold">Eşik (¥)</string>
+    <string name="threshold_hint">ör. 10</string>
+    <string name="threshold_desc">Bakiye eşiğin altına düştüğünde bildirim al. Devre dışı bırakmak için boş bırak.</string>
+    <string name="btn_save">Kaydet</string>
+    <string name="title_usage">Kullanım Kılavuzu</string>
+    <string name="usage_text">API Key, hesap bakiyesini sorgulamak için kullanılır. platform.deepseek.com/api_keys adresinde oluşturun veya kopyalayın.\n\nUser Token, günlük kullanım detaylarını sorgulamak için kullanılır. platform.deepseek.com\'a giriş yapın, tarayıcı geliştirici araçlarını açın ve Konsol\'da şunu çalıştırın:\n\nlocalStorage.getItem(\'userToken\')\n\nDönen değeri kopyalayıp yukarıdaki alana yapıştırın.</string>
+    <string name="title_language">Dil</string>
+    <string name="btn_show">Göster</string>
+    <string name="btn_hide">Gizle</string>
+
+    <!-- Balance Card -->
+    <string name="balance_title">Bakiye</string>
+    <string name="balance_available">Kullanılabilir</string>
+    <string name="balance_daily">Bugün</string>
+    <string name="balance_monthly">Bu Ay</string>
+
+    <!-- Daily Bar Chart -->
+    <string name="chart_consumption_trend">Kullanım Trendi</string>
+    <string name="chart_total">Toplam</string>
+
+    <!-- Balance Forecast -->
+    <string name="forecast_title">Tahmin</string>
+    <string name="forecast_no_data">Tahmin için yeterli veri yok</string>
+    <string name="forecast_days_prefix">Yaklaşık </string>
+    <string name="forecast_days_suffix"> gün</string>
+    <string name="forecast_estimated_date">Mevcut kullanım hızıyla bakiye %s tarihine kadar yeter</string>
+    <string name="forecast_daily_avg">Günlük ortalama ¥%s</string>
+    <string name="forecast_date_format">d/M</string>
+
+    <!-- Trend Line Chart -->
+    <string name="trend_title">30 Günlük Trend</string>
+    <string name="trend_total">Toplam ¥%s</string>
+    <string name="trend_daily_avg">Ort. ¥%s</string>
+    <string name="trend_peak">Zirve %s ¥%s</string>
+
+    <!-- Model Pie Chart -->
+    <string name="pie_title">Model Dağılımı</string>
+    <string name="pie_no_data">Kullanım verisi yok</string>
+
+    <!-- Widget -->
+    <string name="widget_day_prefix">G </string>
+    <string name="widget_month_prefix">A </string>
+
+    <!-- Errors -->
+    <string name="network_error">Ağ hatası</string>
+    <string name="refresh_failed">Yenileme başarısız</string>
+</resources>

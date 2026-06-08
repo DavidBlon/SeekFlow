@@ -1,5 +1,6 @@
 package com.deepseek.balance.ui.screens
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -42,7 +48,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.deepseek.balance.R
 import com.deepseek.balance.data.repository.UsageRepository
+import com.deepseek.balance.util.LanguageOption
+import com.deepseek.balance.util.findLanguageByCode
+import com.deepseek.balance.util.languageOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -84,6 +94,7 @@ class SettingsViewModel @Inject constructor(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     onBack: (() -> Unit)?,
@@ -103,6 +114,15 @@ fun SettingsScreen(
                 .getString("balance_threshold", "") ?: ""
         )
     }
+    var selectedLang by remember {
+        mutableStateOf(
+            findLanguageByCode(
+                context.getSharedPreferences("whale_prefs", Context.MODE_PRIVATE)
+                    .getString("app_language", "zh") ?: "zh"
+            )
+        )
+    }
+    var langExpanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -115,11 +135,11 @@ fun SettingsScreen(
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (onBack != null) {
                 IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "\u8fd4\u56de", tint = Color(0xFF333333))
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.title_settings), tint = Color(0xFF333333))
                 }
             }
             Text(
-                "\u8bbe\u7f6e",
+                stringResource(R.string.title_settings),
                 color = Color(0xFF1A1A1A),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
@@ -128,7 +148,7 @@ fun SettingsScreen(
 
         SettingsPanel {
             Text(
-                "DeepSeek API \u8bbe\u7f6e",
+                stringResource(R.string.api_settings),
                 color = Color(0xFF1A1A1A),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
@@ -138,7 +158,7 @@ fun SettingsScreen(
             SecretField(
                 value = viewModel.apiKey,
                 onValueChange = viewModel::updateApiKey,
-                label = "API Key\uff08\u67e5\u8be2\u4f59\u989d\uff09",
+                label = stringResource(R.string.label_api_key),
                 placeholder = "sk-...",
                 visible = showKey,
                 onToggleVisible = { showKey = !showKey },
@@ -150,7 +170,7 @@ fun SettingsScreen(
             SecretField(
                 value = viewModel.userToken,
                 onValueChange = viewModel::updateUserToken,
-                label = "User Token\uff08\u67e5\u8be2\u7528\u91cf\uff09",
+                label = stringResource(R.string.label_user_token),
                 placeholder = "eyJ...",
                 visible = showToken,
                 onToggleVisible = { showToken = !showToken },
@@ -163,8 +183,8 @@ fun SettingsScreen(
             OutlinedTextField(
                 value = threshold,
                 onValueChange = { threshold = it },
-                label = { Text("\u9608\u503c (\u00a5)") },
-                placeholder = { Text("\u4f8b\u5982 10") },
+                label = { Text(stringResource(R.string.label_threshold)) },
+                placeholder = { Text(stringResource(R.string.threshold_hint)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 prefix = { Text("\u00a5") },
@@ -181,7 +201,7 @@ fun SettingsScreen(
                 )
             )
             Text(
-                "\u5f53\u4f59\u989d\u4f4e\u4e8e\u8bbe\u5b9a\u9608\u503c\u65f6\uff0c\u901a\u8fc7\u901a\u77e5\u63d0\u9192\u4f60\u3002\u7559\u7a7a\u5219\u4e0d\u63d0\u9192\u3002",
+                stringResource(R.string.threshold_desc),
                 color = Color(0xFF999999),
                 style = MaterialTheme.typography.bodySmall
             )
@@ -200,26 +220,74 @@ fun SettingsScreen(
                     contentColor = Color.White
                 )
             ) {
-                Text("\u4fdd\u5b58", fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.btn_save), fontWeight = FontWeight.SemiBold)
             }
         }
 
         SettingsPanel {
             Text(
-                "\u4f7f\u7528\u8bf4\u660e",
+                stringResource(R.string.title_usage),
                 color = Color(0xFF1A1A1A),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(Modifier.height(10.dp))
             Text(
-                "API Key \u7528\u4e8e\u67e5\u8be2\u8d26\u6237\u4f59\u989d\uff0c\u53ef\u5728 platform.deepseek.com/api_keys \u521b\u5efa\u6216\u590d\u5236\u3002\n\n" +
-                    "User Token \u7528\u4e8e\u67e5\u8be2\u6bcf\u65e5\u7528\u91cf\u660e\u7ec6\u3002\u767b\u5f55 platform.deepseek.com \u540e\u6253\u5f00\u6d4f\u89c8\u5668\u5f00\u53d1\u8005\u5de5\u5177\uff0c\u5728 Console \u4e2d\u6267\u884c\uff1a\n\n" +
-                    "localStorage.getItem('userToken')\n\n" +
-                    "\u590d\u5236\u8fd4\u56de\u503c\u5e76\u7c98\u8d34\u5230\u4e0a\u65b9\u8f93\u5165\u6846\u3002",
+                stringResource(R.string.usage_text),
                 color = Color(0xFF666666),
                 style = MaterialTheme.typography.bodyMedium
             )
+        }
+
+        SettingsPanel {
+            Text(
+                stringResource(R.string.title_language),
+                color = Color(0xFF1A1A1A),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(Modifier.height(10.dp))
+            ExposedDropdownMenuBox(
+                expanded = langExpanded,
+                onExpandedChange = { langExpanded = it }
+            ) {
+                val accent = if (isWhaleBlue) Color(0xFF4D6BFE) else Color(0xFF424242)
+                OutlinedTextField(
+                    value = selectedLang.displayName,
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = langExpanded) },
+                    modifier = Modifier
+                        .menuAnchor()
+                        .fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Color(0xFF000000),
+                        unfocusedTextColor = Color(0xFF000000),
+                        focusedLabelColor = accent,
+                        unfocusedLabelColor = Color(0xFF666666),
+                        focusedBorderColor = accent,
+                        unfocusedBorderColor = Color(0xFFCCCCCC),
+                        cursorColor = accent
+                    )
+                )
+                ExposedDropdownMenu(
+                    expanded = langExpanded,
+                    onDismissRequest = { langExpanded = false }
+                ) {
+                    languageOptions.forEach { lang ->
+                        DropdownMenuItem(
+                            text = { Text(lang.displayName) },
+                            onClick = {
+                                selectedLang = lang
+                                langExpanded = false
+                                context.getSharedPreferences("whale_prefs", Context.MODE_PRIVATE)
+                                    .edit().putString("app_language", lang.localeCode).apply()
+                                (context as? Activity)?.recreate()
+                            }
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -259,7 +327,7 @@ private fun SecretField(
         trailingIcon = {
             TextButton(onClick = onToggleVisible) {
                 Text(
-                    if (visible) "\u9690\u85cf" else "\u663e\u793a",
+                    if (visible) stringResource(R.string.btn_hide) else stringResource(R.string.btn_show),
                     color = Color(0xFF333333)
                 )
             }

@@ -15,18 +15,10 @@
   <img src="https://img.shields.io/badge/Kotlin-2.0-7F52FF?style=flat-square&logo=kotlin" alt="Kotlin"/>
   <img src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?style=flat-square&logo=jetpackcompose" alt="Compose"/>
   <img src="https://img.shields.io/badge/License-MIT-00B8D9?style=flat-square" alt="License"/>
-  <img src="https://img.shields.io/badge/Version-2.0.0-blue?style=flat-square" alt="Version"/>
+  <img src="https://img.shields.io/badge/Version-2.1.0-blue?style=flat-square" alt="Version"/>
 </p>
 
 ---
-
-## 截图
-
-<p align="center">
-  <img src="docs/概览页.jpg" width="240" alt="概览页"/>
-  <img src="docs/分析页.jpg" width="240" alt="分析页"/>
-  <img src="docs/设置页.jpg" width="240" alt="设置页"/>
-</p>
 
 ## 功能
 

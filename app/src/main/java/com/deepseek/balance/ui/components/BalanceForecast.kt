@@ -19,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import com.deepseek.balance.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -41,7 +43,7 @@ fun BalanceForecast(
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    "余额预估",
+                    stringResource(R.string.forecast_title),
                     color = Color(0xFF1A1A1A),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
@@ -51,7 +53,7 @@ fun BalanceForecast(
 
             if (avgDailyCost <= 0.0001) {
                 Text(
-                    "暂无消耗数据，无法预估",
+                    stringResource(R.string.forecast_no_data),
                     color = Color(0xFF999999),
                     style = MaterialTheme.typography.bodyMedium
                 )
@@ -59,12 +61,12 @@ fun BalanceForecast(
                 val daysRemaining = (balance / avgDailyCost).toInt()
                 val cal = Calendar.getInstance()
                 cal.add(Calendar.DAY_OF_YEAR, daysRemaining)
-                val dateFormat = SimpleDateFormat("M月d日", Locale.CHINA)
+                val dateFormat = SimpleDateFormat(stringResource(R.string.forecast_date_format), Locale.getDefault())
                 val estimatedDate = dateFormat.format(cal.time)
 
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(
-                        "还能用 ",
+                        stringResource(R.string.forecast_days_prefix),
                         color = Color(0xFF666666),
                         style = MaterialTheme.typography.bodyLarge
                     )
@@ -76,20 +78,20 @@ fun BalanceForecast(
                         lineHeight = 30.sp
                     )
                     Text(
-                        " 天",
+                        stringResource(R.string.forecast_days_suffix),
                         color = Color(0xFF666666),
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    "按当前消耗速度，余额预计 $estimatedDate 用完",
+                    stringResource(R.string.forecast_estimated_date, estimatedDate),
                     color = Color(0xFF999999),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Spacer(Modifier.height(6.dp))
                 Text(
-                    "日均消耗 ¥${String.format("%.2f", avgDailyCost)}",
+                    stringResource(R.string.forecast_daily_avg, String.format("%.2f", avgDailyCost)),
                     color = Color(0xFF666666),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold

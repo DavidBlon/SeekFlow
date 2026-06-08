@@ -23,7 +23,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.deepseek.balance.R
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -50,7 +52,7 @@ fun BalanceCard(
                     modifier = Modifier.size(28.dp)
                 )
                 Text(
-                    "\u8d26\u6237\u4f59\u989d",
+                    stringResource(R.string.balance_title),
                     modifier = Modifier.padding(start = 12.dp).weight(1f),
                     style = MaterialTheme.typography.titleLarge,
                     color = Color(0xFF1A1A1A),
@@ -70,7 +72,7 @@ fun BalanceCard(
                             .background(Color(0xFF51F0AE))
                     )
                     Text(
-                        "\u53ef\u7528",
+                        stringResource(R.string.balance_available),
                         modifier = Modifier.padding(start = 8.dp),
                         color = Color(0xFF6EF0B6),
                         fontWeight = FontWeight.SemiBold
@@ -96,12 +98,12 @@ fun BalanceCard(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     BalanceUsageItem(
-                        title = "\u5f53\u65e5\u6d88\u8017",
+                        title = stringResource(R.string.balance_daily),
                         amount = "\u00a5$dailyCost",
                         modifier = Modifier.weight(1f)
                     )
                     BalanceUsageItem(
-                        title = "\u672c\u6708\u6d88\u8017",
+                        title = stringResource(R.string.balance_monthly),
                         amount = "\u00a5$monthlyCost",
                         modifier = Modifier.weight(1f)
                     )
