@@ -11,6 +11,7 @@ import com.deepseek.balance.data.api.DeepSeekApi
 import com.deepseek.balance.data.api.PlatformApi
 import com.deepseek.balance.data.api.UserSummary
 import com.deepseek.balance.data.db.DailyUsageSummary
+import com.deepseek.balance.data.db.ModelCostSummary
 import com.deepseek.balance.data.db.UsageDao
 import com.deepseek.balance.data.db.UsageEntity
 import kotlinx.coroutines.flow.Flow
@@ -273,4 +274,31 @@ class UsageRepository @Inject constructor(
             )
         )
     }
+
+    // ===== 分析相关 =====
+
+    /** 获取最近N天的每日消耗列表（不通过Flow，直接返回） */
+    suspend fun getDailyCostList(days: Int = 30): List<DailyUsageSummary> {
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DAY_OF_YEAR, -days)
+        val fromDate = dateFormat.format(cal.time)
+        return usageDao.getDailyCostListSince(fromDate)
+    }
+
+    /** 获取按模型汇总的消费 */
+    suspend fun getModelCosts(days: Int = 30): List<ModelCostSummary> {
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DAY_OF_YEAR, -days)
+        val fromDate = dateFormat.format(cal.time)
+        return usageDao.getModelCostSince(fromDate)
+    }
+
+    /** 获取日均消耗 */
+    suspend fun getAvgDailyCost(days: Int = 7): Double {
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DAY_OF_YEAR, -days)
+        val fromDate = dateFormat.format(cal.time)
+        return usageDao.getAvgDailyCostSince(fromDate)
+    }
+
 }

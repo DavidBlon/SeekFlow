@@ -52,6 +52,33 @@ interface UsageDao {
     /** 查询所有记录 */
     @Query("SELECT * FROM usage_records ORDER BY timestamp DESC LIMIT :limit")
     fun getRecentRecords(limit: Int = 100): Flow<List<UsageEntity>>
+
+    /** 按模型汇总消费（用于饼图） */
+    @Query("""
+        SELECT model, SUM(costAmount) as costAmount, SUM(totalTokens) as totalTokens
+        FROM usage_records
+        WHERE date >= :fromDate AND model != 'balance-delta'
+        GROUP BY model
+    """)
+    suspend fun getModelCostSince(fromDate: String): List<ModelCostSummary>
+
+    /** 计算日均消耗 */
+    @Query("""
+        SELECT COALESCE(SUM(costAmount), 0.0) / MAX(1, COUNT(DISTINCT date))
+        FROM usage_records
+        WHERE date >= :fromDate AND model != 'balance-delta'
+    """)
+    suspend fun getAvgDailyCostSince(fromDate: String): Double
+
+    /** 查询每天的消耗（用于趋势图，包含balance-delta） */
+    @Query("""
+        SELECT date, SUM(totalTokens) as totalTokens, SUM(costAmount) as costAmount
+        FROM usage_records
+        WHERE date >= :fromDate
+        GROUP BY date
+        ORDER BY date ASC
+    """)
+    suspend fun getDailyCostListSince(fromDate: String): List<DailyUsageSummary>
 }
 
 /** 每日汇总 */
@@ -59,4 +86,11 @@ data class DailyUsageSummary(
     val date: String,
     val totalTokens: Long,
     val costAmount: Double
+)
+
+/** 模型消费汇总 */
+data class ModelCostSummary(
+    val model: String,
+    val costAmount: Double,
+    val totalTokens: Long
 )

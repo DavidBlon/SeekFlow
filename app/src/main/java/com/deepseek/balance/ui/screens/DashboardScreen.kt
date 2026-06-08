@@ -15,21 +15,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -76,7 +72,6 @@ fun DashboardScreen(
             DashboardContent(
                 state = state,
                 onRefresh = { viewModel.refresh() },
-                onNavigateToSettings = onNavigateToSettings,
                 onToggleWhaleColor = { viewModel.toggleWhaleColor() }
             )
         }
@@ -87,20 +82,17 @@ fun DashboardScreen(
 private fun DashboardContent(
     state: DashboardState,
     onRefresh: () -> Unit,
-    onNavigateToSettings: () -> Unit,
     onToggleWhaleColor: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(WindowInsets.statusBars.asPaddingValues())
             .padding(horizontal = 14.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         HeaderBar(
             isWhaleBlue = state.isWhaleBlue,
             onRefresh = onRefresh,
-            onNavigateToSettings = onNavigateToSettings,
             onToggleWhaleColor = onToggleWhaleColor
         )
 
@@ -179,7 +171,6 @@ private fun DashboardContent(
 private fun HeaderBar(
     isWhaleBlue: Boolean,
     onRefresh: () -> Unit,
-    onNavigateToSettings: () -> Unit,
     onToggleWhaleColor: () -> Unit
 ) {
     Row(
@@ -211,9 +202,6 @@ private fun HeaderBar(
         IconButton(onClick = onRefresh) {
             Icon(Icons.Default.Refresh, contentDescription = "刷新", tint = Color(0xFF333333))
         }
-        IconButton(onClick = onNavigateToSettings) {
-            Icon(Icons.Default.Settings, contentDescription = "设置", tint = Color(0xFF333333))
-        }
     }
 }
 
@@ -238,7 +226,6 @@ private fun EmptyDashboard(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(WindowInsets.statusBars.asPaddingValues())
             .padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

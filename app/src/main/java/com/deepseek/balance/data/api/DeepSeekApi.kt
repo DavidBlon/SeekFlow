@@ -2,6 +2,7 @@ package com.deepseek.balance.data.api
 
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Query
 
 interface DeepSeekApi {
 
@@ -10,4 +11,5 @@ interface DeepSeekApi {
     suspend fun getBalance(
         @Header("Authorization") auth: String
     ): BalanceResponse
+
 }

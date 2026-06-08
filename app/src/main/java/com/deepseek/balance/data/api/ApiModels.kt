@@ -15,3 +15,4 @@ data class BalanceInfo(
     @SerializedName("topped_up_balance") val toppedUpBalance: String
 )
 
+
