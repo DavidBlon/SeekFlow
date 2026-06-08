@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.DeepseekBalance" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">#FFFFFFFF</item>
+        <item name="android:statusBarColor">#1459D9</item>
+        <item name="android:navigationBarColor">#1459D9</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+</resources>
