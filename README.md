@@ -2,7 +2,9 @@
   <img src="docs/icon.svg" width="128" height="128" alt="SeekFlow Icon"/>
 </p>
 
-<h1 align="center">SeekFlow</h1>
+<p align="center">
+  <img src="docs/title.svg" alt="SeekFlow"/>
+</p>
 
 <p align="center">
   <strong>DeepSeek API 余额与用量监控</strong>
