@@ -1,9 +1,5 @@
 <p align="center">
-  <img src="docs/icon.svg" width="128" height="128" alt="SeekFlow Icon"/>
-</p>
-
-<p align="center">
-  <img src="docs/title.svg" alt="SeekFlow"/>
+  <img src="docs/hero.svg" width="420" alt="SeekFlow"/>
 </p>
 
 <p align="center">
