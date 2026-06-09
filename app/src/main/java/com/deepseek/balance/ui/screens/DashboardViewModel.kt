@@ -1,8 +1,6 @@
-package com.deepseek.balance.ui.screens
+﻿package com.deepseek.balance.ui.screens
 
 import android.app.Application
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,10 +11,6 @@ import com.deepseek.balance.R
 import com.deepseek.balance.data.db.DailyUsageSummary
 import com.deepseek.balance.data.repository.UsageRepository
 import com.deepseek.balance.data.worker.RefreshWorker
-import com.deepseek.balance.ui.widget.BalanceWidgetLarge
-import com.deepseek.balance.ui.widget.BalanceWidgetMedium
-import com.deepseek.balance.ui.widget.BalanceWidgetProvider
-import com.deepseek.balance.ui.widget.BalanceWidgetSmall
 import com.deepseek.balance.ui.widget.WidgetDataCache
 import com.deepseek.balance.util.NotificationHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,7 +30,6 @@ import javax.inject.Inject
 data class DashboardState(
     val isLoading: Boolean = true,
     val isRefreshing: Boolean = false,
-    val isWhaleBlue: Boolean = false,
     val errorMessage: String? = null,
     val totalBalance: String = "0.00",
     val grantedBalance: String = "0.00",
@@ -61,15 +54,10 @@ class DashboardViewModel @Inject constructor(
     val state: StateFlow<DashboardState> = _state.asStateFlow()
 
     private val prefs = application.getSharedPreferences("whale_prefs", Context.MODE_PRIVATE)
-
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val monthFormat = SimpleDateFormat("yyyy-MM", Locale.getDefault())
 
     init {
-        // 恢复上次的鲸鱼颜色
-        val saved = prefs.getBoolean("is_whale_blue", false)
-        if (saved) _state.update { it.copy(isWhaleBlue = true) }
-
         viewModelScope.launch {
             combine(repository.apiKey, repository.userToken) { key, token -> key to token }
                 .collect { (key, token) ->
@@ -94,31 +82,6 @@ class DashboardViewModel @Inject constructor(
                 ExistingPeriodicWorkPolicy.KEEP,
                 request
             )
-        }
-    }
-
-    fun toggleWhaleColor() {
-        val newValue = !_state.value.isWhaleBlue
-        _state.update { it.copy(isWhaleBlue = newValue) }
-        prefs.edit().putBoolean("is_whale_blue", newValue).apply()
-        refreshAllWidgets()
-    }
-
-    private fun refreshAllWidgets() {
-        runCatching {
-            val manager = AppWidgetManager.getInstance(application)
-            val widgetConfigs = listOf(
-                BalanceWidgetSmall::class.java to R.layout.widget_balance,
-                BalanceWidgetMedium::class.java to R.layout.widget_balance_medium,
-                BalanceWidgetLarge::class.java to R.layout.widget_balance_large
-            )
-            for ((cls, layoutId) in widgetConfigs) {
-                val ids = manager.getAppWidgetIds(ComponentName(application, cls))
-                for (id in ids) {
-                    val labels = layoutId == R.layout.widget_balance_medium
-                    BalanceWidgetProvider.updateAppWidget(application, manager, id, layoutId, labels)
-                }
-            }
         }
     }
 
@@ -167,7 +130,6 @@ class DashboardViewModel @Inject constructor(
                     )
                 }
 
-                // Update widget cache and refresh widgets
                 val currentState = _state.value
                 widgetDataCache.saveBalanceData(
                     totalBalance = currentState.totalBalance,
@@ -175,7 +137,6 @@ class DashboardViewModel @Inject constructor(
                     monthlyCost = currentState.monthlyCost
                 )
 
-                // 余额预警检测
                 val thresholdStr = prefs.getString("balance_threshold", "") ?: ""
                 if (thresholdStr.isNotBlank()) {
                     val threshold = thresholdStr.toFloatOrNull()
@@ -186,7 +147,6 @@ class DashboardViewModel @Inject constructor(
                         )
                     }
                 }
-                refreshAllWidgets()
             }.onFailure { e ->
                 _state.update {
                     it.copy(

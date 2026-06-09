@@ -1,15 +1,7 @@
-package com.deepseek.balance.ui.screens
+﻿package com.deepseek.balance.ui.screens
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,11 +10,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
@@ -37,8 +27,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -51,6 +39,7 @@ import com.deepseek.balance.R
 import com.deepseek.balance.ui.components.BalanceCard
 import com.deepseek.balance.ui.components.DailyBarChart
 import com.deepseek.balance.ui.components.ModelTokenRow
+import com.deepseek.balance.ui.components.RefreshAnimation
 
 @Composable
 fun DashboardScreen(
@@ -65,16 +54,9 @@ fun DashboardScreen(
             .background(Color.White)
     ) {
         if (!state.hasApiKey) {
-            EmptyDashboard(
-                isWhaleBlue = state.isWhaleBlue,
-                onNavigateToSettings = onNavigateToSettings
-            )
+            EmptyDashboard(onNavigateToSettings = onNavigateToSettings)
         } else {
-            DashboardContent(
-                state = state,
-                onRefresh = { viewModel.refresh() },
-                onToggleWhaleColor = { viewModel.toggleWhaleColor() }
-            )
+            DashboardContent(state = state, onRefresh = { viewModel.refresh() })
         }
     }
 }
@@ -82,8 +64,7 @@ fun DashboardScreen(
 @Composable
 private fun DashboardContent(
     state: DashboardState,
-    onRefresh: () -> Unit,
-    onToggleWhaleColor: () -> Unit
+    onRefresh: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -91,11 +72,7 @@ private fun DashboardContent(
             .padding(horizontal = 14.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        HeaderBar(
-            isWhaleBlue = state.isWhaleBlue,
-            onRefresh = onRefresh,
-            onToggleWhaleColor = onToggleWhaleColor
-        )
+        HeaderBar(onRefresh = onRefresh)
 
         state.errorMessage?.let {
             ErrorStrip(message = it)
@@ -109,27 +86,7 @@ private fun DashboardContent(
                 contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    val infiniteTransition = rememberInfiniteTransition(label = "loading")
-                    val rotation by infiniteTransition.animateFloat(
-                        initialValue = 0f,
-                        targetValue = 360f,
-                        animationSpec = infiniteRepeatable(
-                            tween(1000, easing = LinearEasing),
-                            RepeatMode.Restart
-                        ),
-                        label = "loading_rotation"
-                    )
-
-                    Image(
-                        painter = painterResource(
-                            if (state.isWhaleBlue) R.drawable.ic_deepseek_logo_blue
-                            else R.drawable.ic_deepseek_logo
-                        ),
-                        contentDescription = stringResource(R.string.loading_refreshing),
-                        modifier = Modifier
-                            .size(52.dp)
-                            .rotate(rotation)
-                    )
+                    RefreshAnimation(size = 52.dp)
                     Spacer(Modifier.height(14.dp))
                     Text(
                         stringResource(R.string.loading_refreshing),
@@ -169,26 +126,19 @@ private fun DashboardContent(
 }
 
 @Composable
-private fun HeaderBar(
-    isWhaleBlue: Boolean,
-    onRefresh: () -> Unit,
-    onToggleWhaleColor: () -> Unit
-) {
+private fun HeaderBar(onRefresh: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(contentAlignment = Alignment.Center) {
             Image(
-                painter = painterResource(
-                    if (isWhaleBlue) R.drawable.ic_deepseek_logo_blue
-                    else R.drawable.ic_deepseek_logo
-                ),
-                contentDescription = "DeepSeek logo",
-                modifier = Modifier.size(42.dp)
+                painter = painterResource(R.drawable.ic_seekflow_signal),
+                contentDescription = "SeekFlow logo",
+                modifier = Modifier.size(48.dp)
             )
         }
-        Spacer(Modifier.width(14.dp))
+        Spacer(Modifier.width(3.dp))
         Text(
             text = buildAnnotatedString {
                 withStyle(SpanStyle(color = Color(0xFF4D6BFE))) { append("Seek") }
@@ -198,8 +148,6 @@ private fun HeaderBar(
             fontWeight = FontWeight.Bold,
             modifier = Modifier.weight(1f)
         )
-        // 鲸鱼变色滑块
-        WhaleColorToggle(isWhaleBlue = isWhaleBlue, onToggle = onToggleWhaleColor)
         IconButton(onClick = onRefresh) {
             Icon(Icons.Default.Refresh, contentDescription = stringResource(R.string.loading_refreshing), tint = Color(0xFF333333))
         }
@@ -211,8 +159,8 @@ private fun ErrorStrip(message: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(14.dp))
-            .background(Color(0xFFFF6B6B).copy(alpha = 0.18f))
+            .padding(vertical = 4.dp)
+            .background(Color(0xFFFF6B6B).copy(alpha = 0.18f), shape = RoundedCornerShape(14.dp))
             .padding(14.dp)
     ) {
         Text(message, color = Color(0xFFFFD8D8), style = MaterialTheme.typography.bodyMedium)
@@ -220,10 +168,7 @@ private fun ErrorStrip(message: String) {
 }
 
 @Composable
-private fun EmptyDashboard(
-    isWhaleBlue: Boolean,
-    onNavigateToSettings: () -> Unit
-) {
+private fun EmptyDashboard(onNavigateToSettings: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -232,15 +177,11 @@ private fun EmptyDashboard(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(
-                if (isWhaleBlue) R.drawable.ic_deepseek_logo_blue
-                else R.drawable.ic_deepseek_logo
-            ),
-            contentDescription = "DeepSeek logo",
+            painter = painterResource(R.drawable.ic_seekflow_signal),
+            contentDescription = "SeekFlow logo",
             modifier = Modifier
                 .size(86.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(Color(0xFFF0F0F5))
+                .background(Color(0xFFF0F0F5), shape = RoundedCornerShape(24.dp))
                 .padding(10.dp)
         )
         Spacer(Modifier.height(24.dp))
@@ -271,37 +212,3 @@ private fun EmptyDashboard(
     }
 }
 
-@Composable
-private fun WhaleColorToggle(isWhaleBlue: Boolean, onToggle: () -> Unit) {
-    val circleSize = 20.dp
-    val thumbOffset by animateDpAsState(
-        targetValue = if (isWhaleBlue) 0.dp else circleSize,
-        label = "whaleToggle"
-    )
-
-    Box(
-        modifier = Modifier
-            .width(circleSize * 2)
-            .height(circleSize)
-            .clip(RoundedCornerShape(circleSize / 2))
-            .clickable { onToggle() }
-    ) {
-        // 整条背景纯色
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .background(
-                    if (isWhaleBlue) Color(0xFF4D6BFE)
-                    else Color(0xFF424242)
-                )
-        )
-        // 圆形滑块
-        Box(
-            modifier = Modifier
-                .size(circleSize)
-                .offset(x = thumbOffset)
-                .clip(CircleShape)
-                .background(Color.White)
-        )
-    }
-}

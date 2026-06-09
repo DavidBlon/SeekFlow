@@ -20,7 +20,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:contentDescription="DeepSeek"
-            android:src="@drawable/ic_deepseek_logo"
+            android:src="@drawable/ic_seekflow_signal"
             android:importantForAccessibility="no" />
 
     </LinearLayout>

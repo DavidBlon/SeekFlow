@@ -62,16 +62,12 @@ open class BalanceWidgetProvider : AppWidgetProvider() {
         ) {
             val cache = WidgetDataCache(context)
             val data = cache.getBalanceData()
-            val prefs = context.getSharedPreferences("whale_prefs", Context.MODE_PRIVATE)
-            val isBlue = prefs.getBoolean("is_whale_blue", false)
-
             val views = RemoteViews(context.packageName, layoutId)
 
-            // 有 logo 的布局才设置颜色
             if (layoutId != R.layout.widget_balance) {
                 views.setImageViewResource(
                     R.id.widget_logo,
-                    if (isBlue) R.drawable.ic_deepseek_logo_blue else R.drawable.ic_deepseek_logo
+                    R.drawable.ic_seekflow_signal
                 )
             }
 

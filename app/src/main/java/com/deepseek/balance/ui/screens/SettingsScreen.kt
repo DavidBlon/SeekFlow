@@ -1,4 +1,4 @@
-package com.deepseek.balance.ui.screens
+﻿package com.deepseek.balance.ui.screens
 
 import android.app.Activity
 import android.content.Context
@@ -36,10 +36,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -101,10 +101,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val isWhaleBlue = remember {
-        context.getSharedPreferences("whale_prefs", Context.MODE_PRIVATE)
-            .getBoolean("is_whale_blue", false)
-    }
+    val accent = Color(0xFF4D6BFE)
 
     var showKey by remember { mutableStateOf(false) }
     var showToken by remember { mutableStateOf(false) }
@@ -162,7 +159,7 @@ fun SettingsScreen(
                 placeholder = "sk-...",
                 visible = showKey,
                 onToggleVisible = { showKey = !showKey },
-                isWhaleBlue = isWhaleBlue
+                accent = accent
             )
 
             Spacer(Modifier.height(14.dp))
@@ -174,12 +171,11 @@ fun SettingsScreen(
                 placeholder = "eyJ...",
                 visible = showToken,
                 onToggleVisible = { showToken = !showToken },
-                isWhaleBlue = isWhaleBlue
+                accent = accent
             )
 
             Spacer(Modifier.height(14.dp))
 
-            val accent = if (isWhaleBlue) Color(0xFF4D6BFE) else Color(0xFF424242)
             OutlinedTextField(
                 value = threshold,
                 onValueChange = { threshold = it },
@@ -216,7 +212,7 @@ fun SettingsScreen(
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isWhaleBlue) Color(0xFF4D6BFE) else Color(0xFF424242),
+                    containerColor = accent,
                     contentColor = Color.White
                 )
             ) {
@@ -251,7 +247,6 @@ fun SettingsScreen(
                 expanded = langExpanded,
                 onExpandedChange = { langExpanded = it }
             ) {
-                val accent = if (isWhaleBlue) Color(0xFF4D6BFE) else Color(0xFF424242)
                 OutlinedTextField(
                     value = selectedLang.displayName,
                     onValueChange = {},
@@ -312,10 +307,8 @@ private fun SecretField(
     placeholder: String,
     visible: Boolean,
     onToggleVisible: () -> Unit,
-    isWhaleBlue: Boolean
+    accent: Color = Color(0xFF4D6BFE)
 ) {
-    val accent = if (isWhaleBlue) Color(0xFF4D6BFE) else Color(0xFF424242)
-
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,

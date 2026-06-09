@@ -1,14 +1,5 @@
-package com.deepseek.balance.ui.screens
+﻿package com.deepseek.balance.ui.screens
 
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,19 +20,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -49,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.deepseek.balance.R
 import com.deepseek.balance.ui.components.BalanceForecast
 import com.deepseek.balance.ui.components.ModelPieChart
+import com.deepseek.balance.ui.components.RefreshAnimation
 import com.deepseek.balance.ui.components.TrendLineChart
 
 @Composable
@@ -56,21 +41,6 @@ fun AnalyticsScreen(
     viewModel: AnalyticsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
-    // 响应式监听主题切换（鲸鱼颜色）的偏好变化
-    val context = LocalContext.current
-    var isWhaleBlue by remember { mutableStateOf(false) }
-    DisposableEffect(context) {
-        val prefs = context.getSharedPreferences("whale_prefs", Context.MODE_PRIVATE)
-        isWhaleBlue = prefs.getBoolean("is_whale_blue", false)
-        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (key == "is_whale_blue") {
-                isWhaleBlue = prefs.getBoolean("is_whale_blue", false)
-            }
-        }
-        prefs.registerOnSharedPreferenceChangeListener(listener)
-        onDispose { prefs.unregisterOnSharedPreferenceChangeListener(listener) }
-    }
 
     LaunchedEffect(Unit) {
         viewModel.refresh()
@@ -83,7 +53,6 @@ fun AnalyticsScreen(
             .padding(horizontal = 14.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        // Header
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -106,24 +75,7 @@ fun AnalyticsScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    val infiniteTransition = rememberInfiniteTransition(label = "loading")
-                    val rotation by infiniteTransition.animateFloat(
-                        initialValue = 0f,
-                        targetValue = 360f,
-                        animationSpec = infiniteRepeatable(
-                            tween(1000, easing = LinearEasing),
-                            RepeatMode.Restart
-                        ),
-                        label = "loading_rotation"
-                    )
-                    Image(
-                        painter = painterResource(
-                            if (isWhaleBlue) R.drawable.ic_deepseek_logo_blue
-                            else R.drawable.ic_deepseek_logo
-                        ),
-                        contentDescription = stringResource(R.string.loading_analytics_data),
-                        modifier = Modifier.size(52.dp).rotate(rotation)
-                    )
+                    RefreshAnimation(size = 52.dp)
                     Spacer(Modifier.height(14.dp))
                     Text(
                         stringResource(R.string.loading_analytics_data),
@@ -134,7 +86,6 @@ fun AnalyticsScreen(
                 }
             }
         } else {
-            // 内容区域 - 可滚动（紧凑布局）
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -142,19 +93,15 @@ fun AnalyticsScreen(
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // 余额预估
                 BalanceForecast(
                     balance = state.balance,
                     avgDailyCost = state.avgDailyCost
                 )
 
-                // 30天趋势
                 TrendLineChart(dailyData = state.trendData)
 
-                // 模型占比
                 ModelPieChart(modelCosts = state.modelCosts)
             }
         }
     }
 }
-
