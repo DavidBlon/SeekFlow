@@ -1,21 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="420" height="240" viewBox="0 0 420 240">
-  <!-- White background -->
   <rect width="420" height="240" rx="16" fill="#ffffff"/>
 
-  <!-- Signal icon centered -->
-  <g transform="translate(172,40)">
-    <!-- Primary scan arc (seek) -->
+  <g transform="translate(157,62) scale(2.2)">
     <path d="M0,0 C12,-8 28,-8 38,0 C48,8 48,24 38,32"
-          fill="none" stroke="#4D6BFE" stroke-width="7" stroke-linecap="round"/>
-    <!-- Inner flow stream (flow) -->
+          fill="none" stroke="#4D6BFE" stroke-width="3" stroke-linecap="round"/>
     <path d="M0,8 C10,0 22,0 30,8 C38,16 38,26 30,32"
-          fill="none" stroke="#4D6BFE" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
-    <!-- Focal origin node -->
-    <circle cx="0" cy="0" r="4.5" fill="#4D6BFE"/>
+          fill="none" stroke="#4D6BFE" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <circle cx="0" cy="0" r="2" fill="#4D6BFE"/>
   </g>
 
-  <!-- Title: SeekFlow -->
-  <text x="210" y="210" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="36" font-weight="bold">
+  <text x="210" y="192" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="36" font-weight="bold">
     <tspan fill="#4D6BFE">Seek</tspan><tspan fill="#000000">Flow</tspan>
   </text>
 </svg>
