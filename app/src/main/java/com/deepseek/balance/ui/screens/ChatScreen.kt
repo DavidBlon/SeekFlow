@@ -154,8 +154,25 @@ private fun ChatContent(
     var inputText by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
 
-    LaunchedEffect(messages.size, isLoading) {
+    LaunchedEffect(messages.size) {
         if (messages.isNotEmpty()) {
+            delay(100)
+            listState.animateScrollToItem(messages.size - 1)
+        }
+    }
+
+    LaunchedEffect(streamingMsgId) {
+        if (streamingMsgId != null) {
+            while (true) {
+                listState.scrollToItem(messages.size - 1)
+                delay(30)
+            }
+        }
+    }
+
+    LaunchedEffect(streamingMsgId) {
+        if (streamingMsgId == null && messages.isNotEmpty()) {
+            delay(50)
             listState.animateScrollToItem(messages.size - 1)
         }
     }
