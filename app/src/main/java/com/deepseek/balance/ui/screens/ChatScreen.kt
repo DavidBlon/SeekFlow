@@ -1,5 +1,10 @@
 package com.deepseek.balance.ui.screens
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,7 +14,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,8 +26,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +36,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,7 +48,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -56,6 +58,7 @@ import com.deepseek.balance.data.api.ChatMessage
 import com.deepseek.balance.data.repository.ChatRepository
 import com.deepseek.balance.data.repository.UsageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -73,7 +76,8 @@ data class UiMessage(
 data class ChatState(
     val messages: List<UiMessage> = emptyList(),
     val isLoading: Boolean = false,
-    val hasApiKey: Boolean = false
+    val hasApiKey: Boolean = false,
+    val streamingMsgId: Long? = null
 )
 
 @HiltViewModel
@@ -103,8 +107,9 @@ class ChatViewModel @Inject constructor(
             val apiMessages = _state.value.messages.map { ChatMessage(role = it.role, content = it.content) }
             val result = chatRepository.sendMessage(apiMessages)
             result.onSuccess { reply ->
-                val aiMsg = UiMessage(id = nextId++, role = reply.role, content = reply.content)
-                _state.update { it.copy(messages = it.messages + aiMsg, isLoading = false) }
+                val msgId = nextId++
+                val aiMsg = UiMessage(id = msgId, role = reply.role, content = reply.content)
+                _state.update { it.copy(messages = it.messages + aiMsg, isLoading = false, streamingMsgId = msgId) }
             }.onFailure { e ->
                 val errMsg = UiMessage(
                     id = nextId++, role = "assistant",
@@ -114,49 +119,52 @@ class ChatViewModel @Inject constructor(
             }
         }
     }
+
+    fun finishStreaming(msgId: Long) {
+        _state.update { if (it.streamingMsgId == msgId) it.copy(streamingMsgId = null) else it }
+    }
 }
 
 @Composable
 fun ChatScreen(
-    onNavigateToSettings: () -> Unit,
     viewModel: ChatViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        if (!state.hasApiKey) {
-            EmptyChat(onNavigateToSettings = onNavigateToSettings)
-        } else {
-            ChatContent(
-                messages = state.messages,
-                isLoading = state.isLoading,
-                onSend = viewModel::sendMessage
-            )
-        }
-    }
+    ChatContent(
+        messages = state.messages,
+        isLoading = state.isLoading,
+        hasApiKey = state.hasApiKey,
+        streamingMsgId = state.streamingMsgId,
+        onSend = viewModel::sendMessage,
+        onFinishStreaming = viewModel::finishStreaming
+    )
 }
 
 @Composable
 private fun ChatContent(
     messages: List<UiMessage>,
     isLoading: Boolean,
-    onSend: (String) -> Unit
+    hasApiKey: Boolean,
+    streamingMsgId: Long?,
+    onSend: (String) -> Unit,
+    onFinishStreaming: (Long) -> Unit
 ) {
     val listState = rememberLazyListState()
     var inputText by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
 
-    LaunchedEffect(messages.size) {
+    LaunchedEffect(messages.size, isLoading) {
         if (messages.isNotEmpty()) {
             listState.animateScrollToItem(messages.size - 1)
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
         LazyColumn(
             state = listState,
             modifier = Modifier
@@ -167,7 +175,11 @@ private fun ChatContent(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(messages, key = { it.id }) { msg ->
-                ChatBubble(message = msg)
+                ChatBubble(
+                    message = msg,
+                    isStreaming = msg.id == streamingMsgId,
+                    onFinishStreaming = onFinishStreaming
+                )
             }
             if (isLoading) {
                 item {
@@ -180,17 +192,22 @@ private fun ChatContent(
             text = inputText,
             onTextChange = { inputText = it },
             onSend = {
+                if (!hasApiKey) return@InputBar
                 onSend(inputText)
                 inputText = ""
                 focusManager.clearFocus()
             },
-            enabled = !isLoading
+            enabled = hasApiKey && !isLoading
         )
     }
 }
 
 @Composable
-private fun ChatBubble(message: UiMessage) {
+private fun ChatBubble(
+    message: UiMessage,
+    isStreaming: Boolean,
+    onFinishStreaming: (Long) -> Unit
+) {
     val isUser = message.role == "user"
 
     Row(
@@ -209,11 +226,77 @@ private fun ChatBubble(message: UiMessage) {
                 .background(if (isUser) Color(0xFFF0F2F5) else Color(0xFF4D6BFE))
                 .padding(horizontal = 16.dp, vertical = 11.dp)
         ) {
-            Text(
-                text = message.content,
-                color = if (isUser) Color(0xFF1A1A1A) else Color.White,
-                style = MaterialTheme.typography.bodyMedium,
-                lineHeight = 22.sp
+            if (isStreaming) {
+                StreamingText(
+                    fullText = message.content,
+                    msgId = message.id,
+                    onFinish = onFinishStreaming,
+                    color = Color.White,
+                    lineHeight = 22.sp
+                )
+            } else {
+                Text(
+                    text = message.content,
+                    color = if (isUser) Color(0xFF1A1A1A) else Color.White,
+                    style = MaterialTheme.typography.bodyMedium,
+                    lineHeight = 22.sp
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun StreamingText(
+    fullText: String,
+    msgId: Long,
+    onFinish: (Long) -> Unit,
+    color: Color,
+    lineHeight: androidx.compose.ui.unit.TextUnit
+) {
+    var visibleCount by remember(fullText) { mutableIntStateOf(0) }
+    var finished by remember { mutableStateOf(false) }
+
+    val infiniteTransition = rememberInfiniteTransition(label = "cursor")
+    val cursorAlpha by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(500, easing = LinearEasing)
+        ),
+        label = "cursorAlpha"
+    )
+
+    LaunchedEffect(fullText) {
+        val total = fullText.length
+        if (total == 0) {
+            onFinish(msgId)
+            return@LaunchedEffect
+        }
+        val steps = minOf(total, 100)
+        val chunk = maxOf(1, total / steps)
+        for (i in 0..total step chunk) {
+            visibleCount = i
+            delay(12)
+        }
+        visibleCount = total
+        finished = true
+        onFinish(msgId)
+    }
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            text = fullText.substring(0, visibleCount.coerceAtMost(fullText.length)),
+            color = color,
+            style = MaterialTheme.typography.bodyMedium,
+            lineHeight = lineHeight
+        )
+        if (!finished && visibleCount > 0) {
+            Box(
+                modifier = Modifier
+                    .padding(start = 2.dp)
+                    .size(2.dp, 16.dp)
+                    .background(color.copy(alpha = cursorAlpha))
             )
         }
     }
@@ -221,6 +304,21 @@ private fun ChatBubble(message: UiMessage) {
 
 @Composable
 private fun ThinkingBubble() {
+    var dots by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            dots = ""
+            delay(350)
+            dots = "."
+            delay(350)
+            dots = ".."
+            delay(350)
+            dots = "..."
+            delay(350)
+        }
+    }
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
@@ -232,7 +330,7 @@ private fun ThinkingBubble() {
                 .padding(horizontal = 18.dp, vertical = 12.dp)
         ) {
             Text(
-                text = "...",
+                text = dots,
                 color = Color.White,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold
@@ -289,42 +387,6 @@ private fun InputBar(
                 tint = Color.White,
                 modifier = Modifier.size(20.dp)
             )
-        }
-    }
-}
-
-@Composable
-private fun EmptyChat(onNavigateToSettings: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(R.string.chat_empty_title),
-            color = Color(0xFF1A1A1A),
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
-        )
-        Spacer(Modifier.height(10.dp))
-        Text(
-            text = stringResource(R.string.chat_empty_desc),
-            color = Color(0xFF888888),
-            style = MaterialTheme.typography.bodyLarge,
-            textAlign = TextAlign.Center
-        )
-        Spacer(Modifier.height(28.dp))
-        Button(
-            onClick = onNavigateToSettings,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF74D9FF),
-                contentColor = Color(0xFF06222C)
-            )
-        ) {
-            Text(stringResource(R.string.go_to_settings), fontWeight = FontWeight.SemiBold)
         }
     }
 }

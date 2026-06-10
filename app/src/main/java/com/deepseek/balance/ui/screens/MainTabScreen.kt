@@ -57,7 +57,7 @@ fun MainTabScreen() {
                     NavigationBarItem(
                         selected = pagerState.currentPage == index,
                         onClick = {
-                            coroutineScope.launch { pagerState.animateScrollToPage(index) }
+                            coroutineScope.launch { pagerState.scrollToPage(index) }
                         },
                         icon = { Icon(tab.icon, contentDescription = tab.title) },
                         label = { Text(tab.title, fontWeight = FontWeight.SemiBold, fontSize = 12.sp) },
@@ -83,19 +83,15 @@ fun MainTabScreen() {
                 when (page) {
                     0 -> DashboardScreen(
                         onNavigateToSettings = {
-                            coroutineScope.launch { pagerState.animateScrollToPage(3) }
+                            coroutineScope.launch { pagerState.scrollToPage(3) }
                         }
                     )
                     1 -> AnalyticsScreen()
-                    2 -> ChatScreen(
-                        onNavigateToSettings = {
-                            coroutineScope.launch { pagerState.animateScrollToPage(3) }
-                        }
-                    )
+                    2 -> ChatScreen()
                     3 -> SettingsScreen(
                         onBack = null,
                         onSaveSuccess = {
-                            coroutineScope.launch { pagerState.animateScrollToPage(0) }
+                            coroutineScope.launch { pagerState.scrollToPage(0) }
                         }
                     )
                 }
