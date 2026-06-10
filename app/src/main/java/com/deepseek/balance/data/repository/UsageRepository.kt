@@ -1,4 +1,4 @@
-package com.deepseek.balance.data.repository
+﻿package com.deepseek.balance.data.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -175,15 +175,15 @@ class UsageRepository @Inject constructor(
                                 BalanceInfo(
                                     currency = summary.normalWallets.firstOrNull()?.currency ?: "CNY",
                                     totalBalance = String.format(
-                                        "%.4f",
+                                        "%.2f",
                                         normalBalance.toDoubleOrNull() ?: 0.0
                                     ),
                                     grantedBalance = String.format(
-                                        "%.4f",
+                                        "%.2f",
                                         bonusBalance.toDoubleOrNull() ?: 0.0
                                     ),
                                     toppedUpBalance = String.format(
-                                        "%.4f",
+                                        "%.2f",
                                         normalBalance.toDoubleOrNull() ?: 0.0
                                     )
                                 )
@@ -275,9 +275,9 @@ class UsageRepository @Inject constructor(
         )
     }
 
-    // ===== 分析相关 =====
+    // ===== 鍒嗘瀽鐩稿叧 =====
 
-    /** 获取最近N天的每日消耗列表（不通过Flow，直接返回） */
+    /** 鑾峰彇鏈€杩慛澶╃殑姣忔棩娑堣€楀垪琛紙涓嶉€氳繃Flow锛岀洿鎺ヨ繑鍥烇級 */
     suspend fun getDailyCostList(days: Int = 30): List<DailyUsageSummary> {
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_YEAR, -days)
@@ -285,7 +285,7 @@ class UsageRepository @Inject constructor(
         return usageDao.getDailyCostListSince(fromDate)
     }
 
-    /** 获取按模型汇总的消费 */
+    /** 鑾峰彇鎸夋ā鍨嬫眹鎬荤殑娑堣垂 */
     suspend fun getModelCosts(days: Int = 30): List<ModelCostSummary> {
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_YEAR, -days)
@@ -293,7 +293,7 @@ class UsageRepository @Inject constructor(
         return usageDao.getModelCostSince(fromDate)
     }
 
-    /** 获取日均消耗 */
+    /** 鑾峰彇鏃ュ潎娑堣€?*/
     suspend fun getAvgDailyCost(days: Int = 7): Double {
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_YEAR, -days)

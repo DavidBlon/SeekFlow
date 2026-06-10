@@ -1,4 +1,4 @@
-package com.deepseek.balance.data.worker
+﻿package com.deepseek.balance.data.worker
 
 import android.content.ComponentName
 import android.content.Context
@@ -41,8 +41,8 @@ class WidgetRefreshWorker @AssistedInject constructor(
 
             widgetDataCache.saveBalanceData(
                 totalBalance = totalBalance,
-                dailyCost = String.format("%.4f", dailyCost),
-                monthlyCost = String.format("%.4f", monthlyCost)
+                dailyCost = String.format("%.2f", dailyCost),
+                monthlyCost = String.format("%.2f", monthlyCost)
             )
 
             val appWidgetManager = AppWidgetManager.getInstance(appContext)

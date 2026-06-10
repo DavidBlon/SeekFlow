@@ -5,6 +5,7 @@
     <!-- Tab bar -->
     <string name="tab_overview">概要</string>
     <string name="tab_analytics">分析</string>
+    <string name="tab_chat">チャット</string>
     <string name="tab_settings">設定</string>
 
     <!-- Dashboard -->
@@ -36,6 +37,11 @@
     <string name="balance_available">利用可能</string>
     <string name="balance_daily">本日の消費</string>
     <string name="balance_monthly">今月の消費</string>
+
+    <!-- Chat -->
+    <string name="chat_send">送信</string>
+    <string name="chat_empty_title">チャットを始める</string>
+    <string name="chat_empty_desc">設定で DeepSeek API Key を入力してください。その後 DeepSeek と会話できます。</string>
 
     <!-- Daily Bar Chart -->
     <string name="chart_consumption_trend">消費トレンド</string>

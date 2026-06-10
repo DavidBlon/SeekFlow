@@ -5,6 +5,7 @@
     <!-- Tab bar -->
     <string name="tab_overview">Genel Bakış</string>
     <string name="tab_analytics">Analiz</string>
+    <string name="tab_chat">Sohbet</string>
     <string name="tab_settings">Ayarlar</string>
 
     <!-- Dashboard -->
@@ -36,6 +37,11 @@
     <string name="balance_available">Kullanılabilir</string>
     <string name="balance_daily">Bugün</string>
     <string name="balance_monthly">Bu Ay</string>
+
+    <!-- Chat -->
+    <string name="chat_send">Gönder</string>
+    <string name="chat_empty_title">Sohbete başla</string>
+    <string name="chat_empty_desc">Lütfen önce Ayarlar\'dan DeepSeek API Anahtarınızı girin, ardından DeepSeek ile sohbet edebilirsiniz.</string>
 
     <!-- Daily Bar Chart -->
     <string name="chart_consumption_trend">Kullanım Trendi</string>

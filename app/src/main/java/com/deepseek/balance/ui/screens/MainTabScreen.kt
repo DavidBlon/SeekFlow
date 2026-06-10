@@ -7,6 +7,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -16,6 +17,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +40,7 @@ fun MainTabScreen() {
     val tabs = listOf(
         TabItem(stringResource(R.string.tab_overview), Icons.Default.Dashboard),
         TabItem(stringResource(R.string.tab_analytics), Icons.Default.BarChart),
+        TabItem(stringResource(R.string.tab_chat), Icons.Default.Chat),
         TabItem(stringResource(R.string.tab_settings), Icons.Default.Settings)
     )
     val pagerState = rememberPagerState(pageCount = { tabs.size })
@@ -76,14 +79,26 @@ fun MainTabScreen() {
                 .fillMaxSize()
                 .padding(padding)
         ) { page ->
-            when (page) {
-                0 -> DashboardScreen(
-                    onNavigateToSettings = {
-                        coroutineScope.launch { pagerState.animateScrollToPage(2) }
-                    }
-                )
-                1 -> AnalyticsScreen()
-                2 -> SettingsScreen(onBack = null)
+            key(page) {
+                when (page) {
+                    0 -> DashboardScreen(
+                        onNavigateToSettings = {
+                            coroutineScope.launch { pagerState.animateScrollToPage(3) }
+                        }
+                    )
+                    1 -> AnalyticsScreen()
+                    2 -> ChatScreen(
+                        onNavigateToSettings = {
+                            coroutineScope.launch { pagerState.animateScrollToPage(3) }
+                        }
+                    )
+                    3 -> SettingsScreen(
+                        onBack = null,
+                        onSaveSuccess = {
+                            coroutineScope.launch { pagerState.animateScrollToPage(0) }
+                        }
+                    )
+                }
             }
         }
     }

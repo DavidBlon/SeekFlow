@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -65,6 +66,7 @@ class DashboardViewModel @Inject constructor(
                         it.copy(hasApiKey = key.isNotBlank(), hasUserToken = token.isNotBlank())
                     }
                     if (key.isNotBlank()) {
+                        yield() // 让初始渲染先完成
                         refresh()
                         schedulePeriodicRefresh()
                     } else {
@@ -122,8 +124,8 @@ class DashboardViewModel @Inject constructor(
                     it.copy(
                         isLoading = false,
                         isRefreshing = false,
-                        dailyCost = String.format("%.4f", dailyCost),
-                        monthlyCost = String.format("%.4f", monthlyCost),
+                        dailyCost = String.format("%.2f", dailyCost),
+                        monthlyCost = String.format("%.2f", monthlyCost),
                         flashTokens = flashTokens,
                         proTokens = proTokens,
                         dailyData = data

@@ -5,6 +5,7 @@
     <!-- Tab bar -->
     <string name="tab_overview">Riepilogo</string>
     <string name="tab_analytics">Analisi</string>
+    <string name="tab_chat">Chat</string>
     <string name="tab_settings">Impostazioni</string>
 
     <!-- Dashboard -->
@@ -36,6 +37,11 @@
     <string name="balance_available">Disponibile</string>
     <string name="balance_daily">Oggi</string>
     <string name="balance_monthly">Questo mese</string>
+
+    <!-- Chat -->
+    <string name="chat_send">Invia</string>
+    <string name="chat_empty_title">Avvia chat</string>
+    <string name="chat_empty_desc">Inserisci prima la tua chiave API DeepSeek nelle Impostazioni per chattare con DeepSeek.</string>
 
     <!-- Daily Bar Chart -->
     <string name="chart_consumption_trend">Andamento</string>

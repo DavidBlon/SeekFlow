@@ -16,6 +16,7 @@ import javax.inject.Inject
 
 data class AnalyticsState(
     val isLoading: Boolean = true,
+    val isRefreshing: Boolean = false,
     val balance: Double = 0.0,
     val avgDailyCost: Double = 0.0,
     val daysRemaining: Int = 0,
@@ -31,9 +32,19 @@ class AnalyticsViewModel @Inject constructor(
     private val _state = MutableStateFlow(AnalyticsState())
     val state: StateFlow<AnalyticsState> = _state.asStateFlow()
 
+    private var hasLoaded = false
+
+    fun refreshIfNotLoaded() {
+        if (!hasLoaded) refresh()
+    }
+
     fun refresh() {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
+            if (hasLoaded) {
+                _state.update { it.copy(isRefreshing = true) }
+            } else {
+                _state.update { it.copy(isLoading = true) }
+            }
 
             try {
                 // 获取当前余额
@@ -51,9 +62,11 @@ class AnalyticsViewModel @Inject constructor(
                 val trendData = repository.getDailyCostList(30)
                 val modelCosts = repository.getModelCosts(30)
 
+                hasLoaded = true
                 _state.update {
                     it.copy(
                         isLoading = false,
+                        isRefreshing = false,
                         balance = balance,
                         avgDailyCost = avgDailyCost,
                         daysRemaining = daysRemaining,
@@ -62,7 +75,7 @@ class AnalyticsViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
-                _state.update { it.copy(isLoading = false) }
+                _state.update { it.copy(isLoading = false, isRefreshing = false) }
             }
         }
     }

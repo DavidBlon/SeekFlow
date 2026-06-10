@@ -5,6 +5,7 @@
     <!-- Tab bar -->
     <string name="tab_overview">概覽</string>
     <string name="tab_analytics">分析</string>
+    <string name="tab_chat">聊天</string>
     <string name="tab_settings">設定</string>
 
     <!-- Dashboard -->
@@ -36,6 +37,11 @@
     <string name="balance_available">可用</string>
     <string name="balance_daily">當日消耗</string>
     <string name="balance_monthly">本月消耗</string>
+
+    <!-- Chat -->
+    <string name="chat_send">發送</string>
+    <string name="chat_empty_title">開始聊天</string>
+    <string name="chat_empty_desc">請先在設定中填寫 DeepSeek API Key，之後即可與 DeepSeek 對話。</string>
 
     <!-- Daily Bar Chart -->
     <string name="chart_consumption_trend">消耗趨勢</string>

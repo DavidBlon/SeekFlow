@@ -5,6 +5,7 @@
     <!-- Tab bar -->
     <string name="tab_overview">개요</string>
     <string name="tab_analytics">분석</string>
+    <string name="tab_chat">채팅</string>
     <string name="tab_settings">설정</string>
 
     <!-- Dashboard -->
@@ -36,6 +37,11 @@
     <string name="balance_available">사용 가능</string>
     <string name="balance_daily">오늘 소비</string>
     <string name="balance_monthly">이번 달 소비</string>
+
+    <!-- Chat -->
+    <string name="chat_send">전송</string>
+    <string name="chat_empty_title">채팅 시작</string>
+    <string name="chat_empty_desc">설정에서 DeepSeek API Key를 먼저 입력한 후 DeepSeek와 대화할 수 있습니다.</string>
 
     <!-- Daily Bar Chart -->
     <string name="chart_consumption_trend">소비 추세</string>

@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -98,9 +99,11 @@ class SettingsViewModel @Inject constructor(
 @Composable
 fun SettingsScreen(
     onBack: (() -> Unit)?,
+    onSaveSuccess: (() -> Unit)? = null,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
     val accent = Color(0xFF4D6BFE)
 
     var showKey by remember { mutableStateOf(false) }
@@ -206,9 +209,10 @@ fun SettingsScreen(
 
             Button(
                 onClick = {
+                    focusManager.clearFocus()
                     context.getSharedPreferences("whale_prefs", Context.MODE_PRIVATE)
                         .edit().putString("balance_threshold", threshold).apply()
-                    viewModel.save(onBack ?: {})
+                    viewModel.save(onSaveSuccess ?: onBack ?: {})
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(

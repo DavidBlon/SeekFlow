@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.deepseek.balance"
-    
+
     compileSdk = 35
 
     defaultConfig {

@@ -5,6 +5,7 @@
     <!-- Tab bar -->
     <string name="tab_overview">Tổng Quan</string>
     <string name="tab_analytics">Phân Tích</string>
+    <string name="tab_chat">Trò chuyện</string>
     <string name="tab_settings">Cài Đặt</string>
 
     <!-- Dashboard -->
@@ -36,6 +37,11 @@
     <string name="balance_available">Khả dụng</string>
     <string name="balance_daily">Hôm nay</string>
     <string name="balance_monthly">Tháng này</string>
+
+    <!-- Chat -->
+    <string name="chat_send">Gửi</string>
+    <string name="chat_empty_title">Bắt đầu trò chuyện</string>
+    <string name="chat_empty_desc">Vui lòng nhập DeepSeek API Key trong Cài đặt trước, sau đó bạn có thể trò chuyện với DeepSeek.</string>
 
     <!-- Daily Bar Chart -->
     <string name="chart_consumption_trend">Xu Hướng</string>
